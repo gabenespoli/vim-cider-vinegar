@@ -6,12 +6,12 @@ A mini plugin that applies the philosophy of [vim-vinegar](https://github.com/tp
 
 The commands below open their respective buffers in the current window, replacing the buffer that was there before. Selecting a file from this list will open it in the current window. If a file is selected for split-view or if the window is closed (using `q` or the buffer's toggle keymap), the window is returned to the buffer where you started.
 
-| Command              | Buffer Opened | Suggested Keymap  |
-| -------------------- | ------------- | ----------------- |
-| :CiderVinegar        | NERDTree      | -                 |
-| :CiderVinegarBuffers | Buffergator   | \<leader>b        |
-| :CiderVinegarQF      | Quickfix List | \<leader>q        |
-| :CiderVinegarLL      | Location List | \<leader>l        |
+| Command                | Buffer Opened | Suggested Keymap                                               |
+| ---------------------- | ------------- | -------------------------------------------------------------- |
+| `:CiderVinegar`        | NERDTree      | `-` (like [vim-vinegar](https://github.com/tpope/vim-vinegar)) |
+| `:CiderVinegarBuffers` | Buffergator   | `<leader>b`                                                    |
+| `:CiderVinegarQF`      | Quickfix List | `<leader>q`                                                    |
+| `:CiderVinegarLL`      | Location List | `<leader>l`                                                    |
 
 Copy the following to your vimrc to use the suggested keymaps.
 
