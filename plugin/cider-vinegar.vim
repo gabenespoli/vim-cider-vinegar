@@ -1,15 +1,20 @@
 " First some checks {{{1
-if g:NERDTreeHijackNetrw != 1
-  let g:NERDTreeHijackNetrw = 1
-  echomsg "CiderVinegar set g:NERDTreeHijackNetrw to 1."
+if exists("g:CiderVinegarEnableNERDTree") && g:CiderVinegarEnableNERDTree == 1
+  if g:NERDTreeHijackNetrw != 1
+    let g:NERDTreeHijackNetrw = 1
+    echomsg "CiderVinegar set g:NERDTreeHijackNetrw to 1."
+  endif
+  if g:NERDTreeQuitOnOpen != 1
+    let g:NERDTreeQuitOnOpen = 1
+    echomsg "CiderVinegar set g:NERDTreeQuitOnOpen to 1."
+  endif
 endif
-if g:NERDTreeQuitOnOpen != 1
-  let g:NERDTreeQuitOnOpen = 1
-  echomsg "CiderVinegar set g:NERDTreeQuitOnOpen to 1."
-endif
-if g:buffergator_viewport_split_policy != "N"
-  let g:buffergator_viewport_split_policy = "N"
-  echomsg "CiderVinegar set g:buffergator_viewport_split_policy to N."
+
+if exists("g:CiderVinegarEnableBuffergator") && g:CiderVinegarEnableBuffergator == 1
+  if g:buffergator_viewport_split_policy != "N"
+    let g:buffergator_viewport_split_policy = "N"
+    echomsg "CiderVinegar set g:buffergator_viewport_split_policy to N."
+  endif
 endif
 
 " Commands and Keymaps {{{1
@@ -19,9 +24,13 @@ command! CiderVinegarQF call CiderVinegarToggleList("QuickFix List", "c")
 command! CiderVinegarLL call CiderVinegarToggleList("Location List", "l")
 
 if exists("g:CiderVinegarToggle")
+      \ && exists("g:CiderVinegarEnableNERDTree")
+      \ && g:CiderVinegarEnableNERDTree == 1
   execute "nnoremap " . g:CiderVinegarToggle . " :CiderVinegar<CR>"
 endif
-if exists("g:CiderVinegarToggleBuffers")
+if exists("g:CiderVinegarToggleBuffers") 
+      \ && exists("g:CiderVinegarEnableBuffergator") 
+      \ && g:CiderVinegarEnableBuffergator == 1
   execute "nnoremap " . g:CiderVinegarToggleBuffers . " :CiderVinegarBuffers<CR>"
 endif
 if exists("g:CiderVinegarToggleQF")
