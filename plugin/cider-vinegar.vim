@@ -43,10 +43,12 @@ endif
 " function CiderVinegar() {{{1
 function! CiderVinegar()
   let l:callerbufnr = bufnr('%')
+  let l:folder = expand('%:h')
+  let l:filename = expand('%:t')
 
-  if expand('%') != ''
-    execute "e " . expand('%:h')
-    execute "call search('".expand('%:t')."', 'cW')"
+  if expand('%') !=# ''
+    execute 'e ' . l:folder
+    execute "call search('".l:filename."', 'cW')"
     let l:dokeymaps = 1
   else
     execute "e ."
