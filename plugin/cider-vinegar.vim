@@ -1,5 +1,5 @@
 " First some checks {{{1
-if exists('g:CiderVinegarEnableNERDTree') && g:CiderVinegarEnableNERDTree == 1
+if exists('g:CiderEnableNERDTree') && g:CiderEnableNERDTree == 1
   if g:NERDTreeHijackNetrw != 1
     let g:NERDTreeHijackNetrw = 1
     echomsg 'CiderVinegar set g:NERDTreeHijackNetrw to 1.'
@@ -10,7 +10,7 @@ if exists('g:CiderVinegarEnableNERDTree') && g:CiderVinegarEnableNERDTree == 1
   endif
 endif
 
-if exists('g:CiderVinegarEnableBuffergator') && g:CiderVinegarEnableBuffergator == 1
+if exists('g:CiderEnableBuffergator') && g:CiderEnableBuffergator == 1
   if g:buffergator_viewport_split_policy !=# 'N'
     let g:buffergator_viewport_split_policy = 'N'
     echomsg 'CiderVinegar set g:buffergator_viewport_split_policy to N.'
@@ -18,30 +18,37 @@ if exists('g:CiderVinegarEnableBuffergator') && g:CiderVinegarEnableBuffergator 
 endif
 
 " Commands and Keymaps {{{1
-command! CiderVinegar call CiderVinegar()
-command! CiderVinegarBuffers call CiderVinegarBuffers()
-command! CiderVinegarQF call CiderVinegarToggleList("QuickFix List", "c")
-command! CiderVinegarLL call CiderVinegarToggleList("Location List", "l")
+command! Cider        call CiderVinegarNERDTree()
+command! CiderBuffers call CiderVinegarBuffergator()
+command! CiderQF      call CiderVinegarToggleList("QuickFix List", "c")
+command! CiderLL      call CiderVinegarToggleList("Location List", "l")
 
-if exists('g:CiderVinegarToggle')
-      \ && exists('g:CiderVinegarEnableNERDTree')
-      \ && g:CiderVinegarEnableNERDTree == 1
-  execute 'nnoremap ' . g:CiderVinegarToggle . ' :CiderVinegar<CR>'
-endif
-if exists('g:CiderVinegarToggleBuffers') 
-      \ && exists('g:CiderVinegarEnableBuffergator') 
-      \ && g:CiderVinegarEnableBuffergator == 1
-  execute 'nnoremap ' . g:CiderVinegarToggleBuffers . ' :CiderVinegarBuffers<CR>'
-endif
-if exists('g:CiderVinegarToggleQF')
-  execute 'nnoremap ' . g:CiderVinegarToggleQF . ' :CiderVinegarQF<CR>'
-endif
-if exists('g:CiderVinegarToggleLL')
-  execute 'nnoremap ' . g:CiderVinegarToggleLL . ' :CiderVinegarLL<CR>'
+if exists('g:CiderToggleNERDTree')
+      \ && exists('g:CiderEnableNERDTree')
+      \ && g:CiderEnableNERDTree == 1
+  execute 'nnoremap ' . g:CiderToggleNERDTree .
+        \ ' :call CiderVinegarNERDTree()<CR>'
 endif
 
-" function CiderVinegar() {{{1
-function! CiderVinegar()
+if exists('g:CiderToggleBuffergator') 
+      \ && exists('g:CiderEnableBuffergator') 
+      \ && g:CiderEnableBuffergator == 1
+  execute 'nnoremap ' . g:CiderToggleBuffergator .
+        \ ' :call CiderVinegarBuffergator()<CR>'
+endif
+
+if exists('g:CiderToggleQF')
+  execute 'nnoremap ' . g:CiderToggleQF .
+        \ ' :call CiderVinegarToggleList("QuickFix List", "c")<CR>'
+endif
+
+if exists('g:CiderToggleLL')
+  execute 'nnoremap ' . g:CiderToggleLL .
+        \ ' :call CiderVinegarToggleList("Location List", "l")<CR>'
+endif
+
+" function CiderVinegarNERDTree() {{{1
+function! CiderVinegarNERDTree()
   let l:callerbufnr = bufnr('%')
   let l:folder = expand('%:h')
   let l:filename = expand('%:t')
@@ -56,10 +63,14 @@ function! CiderVinegar()
   endif
 
   if l:dokeymaps
-    call CiderVinegarKeymaps(l:callerbufnr)
+    call CiderVinegarKeymaps(l:callerbufnr, 'NERDTree')
     " after opening split, switch nerdtree back to the buffer it was called from
-    execute 'nnoremap <buffer> ' . g:NERDTreeMapOpenVSplit . " :call nerdtree#ui_glue#invokeKeyMap('" . g:NERDTreeMapOpenVSplit . "')<CR><C-w>p:b".l:callerbufnr.'<CR><C-w>p'
-    execute 'nnoremap <buffer> ' . g:NERDTreeMapOpenSplit . " :call nerdtree#ui_glue#invokeKeyMap('" . g:NERDTreeMapOpenSplit . "')<CR><C-w>p:b".l:callerbufnr.'<CR><C-w>p'
+    execute 'nnoremap <buffer> ' . g:NERDTreeMapOpenVSplit . 
+          \ " :call nerdtree#ui_glue#invokeKeyMap('" . g:NERDTreeMapOpenVSplit .
+          \ "')<CR><C-w>p:b".l:callerbufnr.'<CR><C-w>p'
+    execute 'nnoremap <buffer> ' . g:NERDTreeMapOpenSplit .
+          \ " :call nerdtree#ui_glue#invokeKeyMap('" . g:NERDTreeMapOpenSplit .
+          \ "')<CR><C-w>p:b".l:callerbufnr.'<CR><C-w>p'
     " TODO: add maps for nerd tree preview; it keeps opening new splits, need
     " to close the other one first
   endif
@@ -99,11 +110,11 @@ function! CiderVinegarKeymaps(callerbufnr, type)
   endif
 endfunction
 
-" function CiderVinegarBuffers() {{{1
-function! CiderVinegarBuffers()
+" function CiderVinegarBuffergator() {{{1
+function! CiderVinegarBuffergator()
   let l:callerbufnr = bufnr('%')
   execute 'BuffergatorOpen'
-  call CiderVinegarKeymaps(l:callerbufnr)
+  call CiderVinegarKeymaps(l:callerbufnr, 'Buffergator')
 endfunction
 
 " function CiderVinegarListIsOpen() {{{1
@@ -146,7 +157,7 @@ function! CiderVinegarToggleList(bufname, pfx)
   nnoremap <buffer> <CR> <CR>:cclose<CR>
   " TODO add keymaps to open qf items in splits?
 
-  call CiderVinegarKeymaps(l:callerbufnr)
+  call CiderVinegarKeymaps(l:callerbufnr, a:pfx)
 
   " if there are two windows, open qf item in current window, reopen other window (vert split only)
   " TODO make this work for horizontal splits too

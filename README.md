@@ -13,8 +13,8 @@ Plug 'gabenespoli/vim-cider-vinegar'
 Enable the plugin by adding these to your vimrc:
 
 ```vim
-let g:CiderVinegarEnableNERDTree = 1
-let g:CiderVinegarEnableBuffergator = 1
+let g:CiderEnableNERDTree = 1
+let g:CiderEnableBuffergator = 1
 ```
 
 ## Requirements
@@ -38,18 +38,18 @@ let g:buffergator_viewport_split_policy = "N"
 
 The commands below open their respective buffers in the current window, replacing the buffer that was there before. Selecting a file from this list will open it in the current window. If a file is selected for split-view or if the window is closed (using `q`), the window is returned to the buffer where you started.
 
-| Command                | Buffer Opened | Suggested Keymap                                               |
-| ---------------------- | ------------- | -------------------------------------------------------------- |
-| `:CiderVinegar`        | NERDTree      | `-` (like [vim-vinegar](https://github.com/tpope/vim-vinegar)) |
-| `:CiderVinegarBuffers` | Buffergator   | `<leader>b`                                                    |
-| `:CiderVinegarQF`      | Quickfix List | `<leader>q`                                                    |
-| `:CiderVinegarLL`      | Location List | `<leader>l`                                                    |
+| Command                | Buffer Opened | Suggested Keymap |
+| ---------------------- | ------------- | ---------------- |
+| `:Cider`               | NERDTree      | `-`              |
+| `:CiderBuffers`        | Buffergator   | `=`              |
+| `:CiderQF`             | Quickfix List | `<leader>q`      |
+| `:CiderLL`             | Location List | `<leader>l`      |
 
 Copy the following to your vimrc to use the suggested keymaps.
 
 ```vim
-let g:CiderVinegarToggle = '-'
-let g:CiderVinegarToggleBuffers = '<leader>b'
-let g:CiderVinegarToggleQF = '<leader>q'
-let g:CiderVinegarToggleLL = '<leader>l'
+let g:CiderToggleNERDTree = '-'
+let g:CiderToggleBuffergator = '='
+let g:CiderToggleQF = '<leader>q'
+let g:CiderToggleLL = '<leader>l'
 ```
