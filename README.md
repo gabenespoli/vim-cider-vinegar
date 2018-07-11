@@ -53,3 +53,5 @@ let g:CiderToggleBuffergator = '='
 let g:CiderToggleQF = '<leader>q'
 let g:CiderToggleLL = '<leader>l'
 ```
+
+Note that these keymaps act as toggles, so pressing `-` in a Cider NERDTree window will close it, instead of the vim-vinegar behaviour of continuing up the directory tree. To turn this off, add `let g:CiderWithVinegar = 0` to your vimrc.
