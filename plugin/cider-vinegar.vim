@@ -96,21 +96,33 @@ function! CiderVinegarBuffers()
   call CiderVinegarKeymaps(l:callerbufnr)
 endfunction
 
-" function CiderVinegarToggleList() {{{1
-" with help from:
+" function CiderVinegarListIsOpen() {{{1
 " http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
-function! CiderVinegarToggleList(bufname, pfx)
-  let buflist = CiderVinegarGetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      exec(a:pfx.'close')
-      return
+function! CiderVinegarListIsOpen(list)
+  if a:list ==? 'QuickFix List' || 
+        \ a:list ==? 'qf' ||
+        \ a:list ==? 'c'
+    let l:bufname = 'QuickFix List'
+  elseif a:list ==? 'Location List' ||
+    \ a:list ==? 'll' ||
+    \ a:list ==? 'l'
+    let l:bufname = 'Location List'
+  endif
+  let l:buflist = CiderVinegarGetBufferList()
+  for l:bufnr in map(filter(split(l:buflist, '\n'),
+        \ 'v:val =~ "'.l:bufname.'"'), 
+        \ 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(l:bufnr) != -1
+      return 1
     endif
   endfor
-  if a:pfx ==# 'l' && len(getloclist(0)) == 0
-      echohl ErrorMsg
-      echo 'Location List is Empty.'
-      return
+endfunction
+
+" function CiderVinegarToggleList() {{{1
+function! CiderVinegarToggleList(bufname, pfx)
+  if CiderVinegarListIsOpen(a:pfx)
+    execute a:pfx . 'close'
+    return
   endif
 
   " make qf replace current window, close qf when select item
