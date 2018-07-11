@@ -72,20 +72,30 @@ function! CiderVinegar()
   set nobuflisted
 endfunction
 
-" function CiderVinegarKeymaps(callerbufnr) {{{1
-function! CiderVinegarKeymaps(callerbufnr)
-  execute 'nnoremap <buffer> q :b'.a:callerbufnr.'<CR>'
-  if exists('g:CiderVinegarToggle')
-    execute 'nnoremap <buffer> ' . g:CiderVinegarToggle . ' :b'.a:callerbufnr.'<CR>:CiderVinegar<CR>'
+" function CiderVinegarKeymaps(callerbufnr, type) {{{1
+function! CiderVinegarKeymaps(callerbufnr, type)
+  " use same map to toggle back
+  if exists('g:CiderQuitMap')
+    execute 'nnoremap <silent> <buffer> ' . g:CiderQuitMap . 
+          \ ' :b' . a:callerbufnr . '<CR>'
   endif
-  if exists('g:CiderVinegarToggleBuffers')
-    execute 'nnoremap <buffer> ' . g:CiderVinegarToggleBuffers . ' :b'.a:callerbufnr.'<CR>:CiderVinegarBuffers<CR>'
-  endif
-  if exists('g:CiderVinegarToggleQF')
-    execute 'nnoremap <buffer> ' . g:CiderVinegarToggleQF . ' :b'.a:callerbufnr.'<CR>:CiderVinegarQF<CR>'
-  endif
-  if exists('g:CiderVinegarToggleLL')
-    execute 'nnoremap <buffer> ' . g:CiderVinegarToggleLL . ' :b'.a:callerbufnr.'<CR>:CiderVinegarLL<CR>'
+
+  if a:type ==? 'NERDTree' && exists('g:CiderToggleNERDTree')
+        \ && (!exists('g:CiderWithVinegar') || g:CiderWithVinegar != 0)
+    execute 'nnoremap <silent> <buffer> ' . g:CiderToggleNERDTree .
+          \ ' :b' . a:callerbufnr . '<CR>'
+
+  elseif a:type ==? 'Buffergator' && exists('g:CiderToggleBuffergator')
+    execute 'nnoremap <silent> <buffer> ' . g:CiderToggleBuffergator .
+          \ ' :b'.a:callerbufnr.'<CR>'
+
+  elseif a:type ==? 'c' && exists('g:CiderToggleQF')
+    execute 'nnoremap <silent> <buffer> ' . g:CiderToggleQF .
+          \ ' :b'.a:callerbufnr.'<CR>'
+
+  elseif a:type ==? 'l' && exists('g:CiderToggleLL')
+    execute 'nnoremap <silent> <buffer> ' . g:CiderToggleLL .
+          \ ' :b'.a:callerbufnr.'<CR>'
   endif
 endfunction
 
