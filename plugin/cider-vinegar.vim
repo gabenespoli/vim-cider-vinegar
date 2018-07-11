@@ -46,7 +46,7 @@ function! CiderVinegar()
   let l:folder = expand('%:h')
   let l:filename = expand('%:t')
 
-  if expand('%') !=# ''
+  if expand('%') !=? ''
     execute 'e ' . l:folder
     execute "call search('".l:filename."', 'cW')"
     let l:dokeymaps = 1
