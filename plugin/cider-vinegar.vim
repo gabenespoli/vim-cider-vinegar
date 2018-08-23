@@ -4,10 +4,6 @@ if exists('g:CiderEnableNERDTree') && g:CiderEnableNERDTree == 1
     let g:NERDTreeHijackNetrw = 1
     echomsg 'CiderVinegar set g:NERDTreeHijackNetrw to 1.'
   endif
-  if g:NERDTreeQuitOnOpen != 1
-    let g:NERDTreeQuitOnOpen = 1
-    echomsg 'CiderVinegar set g:NERDTreeQuitOnOpen to 1.'
-  endif
 endif
 
 if exists('g:CiderEnableBuffergator') && g:CiderEnableBuffergator == 1
@@ -53,6 +49,8 @@ function! CiderVinegarNERDTree()
   let l:folder = expand('%:h')
   let l:filename = expand('%:t')
 
+  let l:val = g:NERDTreeQuitOnOpen
+  let g:NERDTreeQuitOnOpen = 1
   if expand('%') !=? ''
     execute 'e ' . l:folder
     execute "call search('".l:filename."', 'cW')"
@@ -61,6 +59,7 @@ function! CiderVinegarNERDTree()
     execute 'e .'
     let l:dokeymaps = 0
   endif
+  let g:NERDTreeQuitOnOpen = l:val
 
   if l:dokeymaps
     call CiderVinegarKeymaps(l:callerbufnr, 'NERDTree')
