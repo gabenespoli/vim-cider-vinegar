@@ -6,13 +6,6 @@ if exists('g:CiderEnableNERDTree') && g:CiderEnableNERDTree == 1
   endif
 endif
 
-if exists('g:CiderEnableBuffergator') && g:CiderEnableBuffergator == 1
-  if g:buffergator_viewport_split_policy !=# 'N'
-    let g:buffergator_viewport_split_policy = 'N'
-    echomsg 'CiderVinegar set g:buffergator_viewport_split_policy to N.'
-  endif
-endif
-
 " Commands and Keymaps {{{1
 command! Cider        call CiderVinegarNERDTree()
 command! CiderBuffers call CiderVinegarBuffergator()
@@ -112,7 +105,10 @@ endfunction
 " function CiderVinegarBuffergator() {{{1
 function! CiderVinegarBuffergator()
   let l:callerbufnr = bufnr('%')
+  let l:val = g:buffergator_viewport_split_policy
+  let g:buffergator_viewport_split_policy = 'N'
   execute 'BuffergatorOpen'
+  let g:buffergator_viewport_split_policy = l:val
   call CiderVinegarKeymaps(l:callerbufnr, 'Buffergator')
 endfunction
 
