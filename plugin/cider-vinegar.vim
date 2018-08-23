@@ -1,3 +1,9 @@
+
+if exists('g:loaded_cider_vinegar')
+  finish
+endif
+let g:loaded_cider_vinegar = 1
+
 " First some checks {{{1
 if exists('g:CiderEnableNERDTree') && g:CiderEnableNERDTree == 1
   if g:NERDTreeHijackNetrw != 1
